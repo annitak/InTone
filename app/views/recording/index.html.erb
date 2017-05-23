@@ -377,7 +377,7 @@
 			var logfxmax=Math.log(fxmax);
 
 			// clear the context
-			/*if (!played_sound) {
+			if (!played_sound) {
 				ctx.fillStyle = BACKCOLOUR;
 				ctx.fillRect(0, 0, ctx.width, ctx.height);
 
@@ -397,7 +397,7 @@
 							track[i][0]=0;
 					}
 				}
-			}*/
+			}
 
 			// draw time grid, the grid itself
 			ctx.strokeStyle=GRIDCOLOUR;
@@ -465,6 +465,7 @@
 					if ((i>=0)&&(track[i][0]>0)) {
 						var x1=(i-offset)*ctx.width/(disptime*FXRATE);
 						var x2=(i+1-offset)*ctx.width/(disptime*FXRATE);
+						hscroll = 2;
 						if (hscroll==0) {
 							x1=(i*ctx.width/(disptime*FXRATE))%ctx.width;
 							x2=x1+ctx.width/(disptime*FXRATE);
@@ -775,65 +776,91 @@
 
 
 
-// define variables
+		// define variables
+
+
 
 		var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 		var source;
-
+		var songLength;
 		var pre = document.querySelector('pre');
 		var myScript = document.querySelector('script');
+
+
 		var play = document.querySelector('.play');
 		var stop = document.querySelector('.stop');
+
 
 		// use XHR to load an audio track, and
 		// decodeAudioData to decode it and stick it in a buffer.
 		// Then we put the buffer into the source
+		function getData() {
+		  source = audioCtx.createBufferSource();
+		  request = new XMLHttpRequest();
+		  request.open('GET', 'https://raw.githubusercontent.com/annitak/InTone/master/app/assets/audio/JG_2/jg2_bai1.wav', true);
+		  request.responseType = 'arraybuffer';
+		  request.onload = function() {
+		    var audioData = request.response;
+		    audioCtx.decodeAudioData(audioData, function(buffer) {
+		        myBuffer = buffer;
+		        songLength = buffer.duration;
+		        source.buffer = myBuffer;
+		        source.connect(audioCtx.destination);
+		        //source.loop = true;
 
+		      },
+		      function(e){"Error with decoding audio data" + e.err});
 
-
-
-
-
-
-		function playSound() {
-			var soundz = document.getElementById("audio1");
-			soundz.src = 
-				'../app/assets/audio/JG_2/jg2_bai1.wav';
-				// + document.getElementById('audio1').getAttribute('data-value');
-			soundz.load();
-	        soundz.play();
-	        played_sound=true;
-
-			doRun();
-
-			/*var context = new AudioContext(); // Create and Initialize the Audio Context
-			var electro; // Create the Sound 
-			var getSound = new XMLHttpRequest(); // Load the Sound with XMLHttpRequest
-			getSound.open("GET", "../../app/assets/audio/JG_2/jg2_bai1.wav", true); // Path to Audio File
-			getSound.responseType = "arraybuffer"; // Read as Binary Data
-			getSound.onload = function() {
-				context.decodeAudioData(getSound.response, function(buffer){
-					electro = buffer; // Decode the Audio Data and Store it in a Variable
-				});
-			}
-			getSound.send(); // Send the Request and Load the File
-			
-			window.addEventListener("keydown",onKeyDown); // Create Event Listener for KeyDown
-			
-			function onKeyDown(e){
-				switch (e.keyCode) {
-					// X
-					case 88:
-						var playSound = context.createBufferSource(); // Declare a New Sound
-						playSound.buffer = electro; // Attatch our Audio Data as it's Buffer
-						playSound.connect(context.destination);  // Link the Sound to the Output
-						playSound.start(0); // Play the Sound Immediately
-					break;
+//mapping :
+				for (var i=0;i<songLength;i++) { 		//buf is from getChanneldata
+					analbuf[analpos++]=myBuffer[i];
+					if (analpos==anallen) {
+						fxest=fxcalc.CalculateFx(analbuf,anallen);
+						if (fxest.en>0) {
+							if (fxest.en < enmin)
+								enmin=fxest.en;
+							else
+								enmin=(0.99*enmin+0.01*fxest.en);
+							if (fxest.en > enmax)
+								enmax=fxest.en;
+							else
+								enmax=(0.99*enmax+0.01*fxest.en);
+						}
+	//					console.log("enmin="+enmin+" enmax="+enmax+" en="+fxest.en);
+						if (fxest.en > 0.1*enmax)
+							track.push([fxest.fx, fxest.en/enmax, fxest.vs]);
+						else
+							track.push([0,0,0]);
+						// stop after one screen in mode 2
+						if ((hscroll==2)&&(track.length>=disptime*FXRATE)) {
+							paused=1;
+							window.cancelAnimationFrame(anireq);
+							paint(window.performance.now());
+						}
+						// shift analysis buffer by 10ms
+						for (analpos=0,j=anallen/5;j<anallen;j++,analpos++) analbuf[analpos]=analbuf[j];
+					}
 				}
-		 	}*/
-		
 
-	      }
+
+
+
+
+
+		  }
+		  request.send();
+
+
+		}
+		// wire up buttons to stop and play audio, and range slider control
+		function playSound() {
+		  getData();
+		  source.start(0);
+		 // play.setAttribute('disabled', 'disabled');
+		 
+		}
+	
+
 
 		</script>
 
