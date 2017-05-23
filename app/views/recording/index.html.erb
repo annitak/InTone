@@ -15,7 +15,7 @@
 </style>
 
 <div class="ui padded grid">
-	<div class="four wide column">
+	<div class="five wide column">
 		<div class="ui one column grid">
 
 			<div class="column">
@@ -25,10 +25,10 @@
 					</div>
 					<div class="content">
 						<a class="header">
-							Your Name
+							Josephine Bruin
 						</a>
 						<div class="meta">
-							Volunteer
+							Student
 						</div>
 					</div>
 				</div>
@@ -41,98 +41,96 @@
 					</div>
 					<div class="active content">
 						<div class="ui secondary vertical menu">
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #1
 							</a>
-								<audio id="audio1" src="../../assets/audio/JG_2/jg2_bai1.wav" type="audio/wav" autostart="false" ></audio>
-
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #2
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #3
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #4
 							</a>
 						</div>
 					</div>
 
-					<div class="title">
+					<div class="active title">
 						Lesson 2
 					</div>
 					<div class="content">
 						<div class="ui secondary vertical menu">
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #1
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #2
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #3
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #4
 							</a>
 						</div>
 					</div>
 
-					<div class="title">
+					<div class="active title">
 						Lesson 3
 					</div>
 					<div class="content">
 						<div class="ui secondary vertical menu">
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #1
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #2
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #3
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #4
 							</a>
 						</div>
 					</div>
 
-					<div class="title">
+					<div class="active title">
 						Lesson 4
 					</div>
 					<div class="content">
 						<div class="ui secondary vertical menu">
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #1
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #2
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #3
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #4
 							</a>
 						</div>
 					</div>
 
-					<div class="title">
+					<div class="active title">
 						Lesson 5
 					</div>
 					<div class="content">
 						<div class="ui secondary vertical menu">
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #1
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #2
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #3
 							</a>
-							<a class="item">
+							<a class="item" href="/recording/index">
 								Exercise #4
 							</a>
 						</div>
@@ -141,7 +139,8 @@
 			</div><!-- column -->
 
 		</div><!-- ui grid -->
-	</div><!-- four wide column -->
+	</div><!-- five wide column -->
+
 	
 
 	
@@ -797,7 +796,7 @@
 		function getData() {
 		  source = audioCtx.createBufferSource();
 		  request = new XMLHttpRequest();
-		  request.open('GET', 'https://raw.githubusercontent.com/annitak/InTone/master/app/assets/audio/JG_2/jg2_bai1.wav', true);
+		  request.open('GET', 'https://raw.githubusercontent.com/annitak/InTone/master/app/assets/audio/JG_2/jg2_ma1.wav', true);
 		  request.responseType = 'arraybuffer';
 		  request.onload = function() {
 		    var audioData = request.response;
@@ -939,6 +938,4 @@
 	</body> </html>
 	</div> </div>
 	
-	<div class="column" style="background-color: pink;">
-		app > views > recording > index.html.erb
-	</div>
+	
